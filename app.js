@@ -22,7 +22,7 @@ app.set('view cache', false);
 if (app.get('env') === 'development') {
     swig.setDefaults({ cache: false });
 } else {
-    swig.setDefaults({ cache: true });
+    swig.setDefaults({ cache: 'memory' });
 }
 
 // uncomment after placing your favicon in /public/icons
