@@ -11,10 +11,14 @@ Includes:
 - [jQuery](https://jquery.com/)
 
 # Usage
-Before using this framework, execute ```gulp install```.
-This command will copy all libraries to the public folder.
+Before using this framework, execute ```npm install```. This command will load all dependencies.
 
-For more information, see [gulpfile.js](gulpfile.js).
+After that, execute ```gulp install```, to load all libraries in the public folder for you to work with.
+
+If you dont have ```gulp``` installed, execute this command first: ```npm install -g gulp```.
+This will install gulp globally, so you can use it on other projects too.
+
+For more information, and the included gulp commands, see [gulpfile.js](gulpfile.js).
 
 # License
 [The Unlicense](http://choosealicense.com/licenses/unlicense/)
