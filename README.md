@@ -2,6 +2,7 @@
 An Expressjs skeleton framework. 
 
 Includes:
+- [Expressjs](http://expressjs.com/) - The main framework.
 - [Gulp](http://gulpjs.com/) with preconfigured tasks.
 - [Swig](https://paularmstrong.github.io/swig/), a twig templating engine.
 - [Nodemon](http://nodemon.io/), a live file monitoring app.
