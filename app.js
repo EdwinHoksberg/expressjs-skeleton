@@ -5,11 +5,13 @@ var express = require('express'),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
     swig = require('swig'),
-    Ouch = require('ouch');
+    Ouch = require('ouch'),
+    config = require('./config/config');
 
 var routes = require('./routes/index');
 
 var app = express();
+app.locals = config; // load all config variables
 
 // view engine setup
 app.engine('twig', swig.renderFile);
@@ -25,7 +27,6 @@ if (app.get('env') === 'development') {
     swig.setDefaults({ cache: 'memory' });
 }
 
-// uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -47,7 +48,7 @@ if (app.get('env') === 'development') {
 } else {
     app.use(function (err, req, res, next) {
         res.status(err.status || 500);
-        res.render('error', {
+        res.render('templates/error', {
             message: err.message,
             error: {}
         });
