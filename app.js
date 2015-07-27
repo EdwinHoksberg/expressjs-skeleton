@@ -42,7 +42,7 @@ if (app.get('env') === 'development') {
             new Ouch.handlers.PrettyPageHandler('blue', null, 'sublime')
         );
         ouchInstance.handleException(e, req, res, function (output) {
-            console.log('Error handled properly')
+            console.log(e.stack)
         });
     });
 } else {
