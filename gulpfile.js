@@ -1,8 +1,10 @@
 'use strict';
+
 var gulp = require('gulp'),
     sass = require('gulp-sass'),
     concat = require('gulp-concat'),
     uglify = require('gulp-uglify'),
+    notify = require('gulp-notify'),
     sourcemaps = require('gulp-sourcemaps'),
     argv = require('yargs').argv;
 
@@ -10,17 +12,19 @@ var gulp = require('gulp'),
  * Combines all css files together.
  * Depending on the production flag, also minifies or creates a sourcemap.
  */
-gulp.task('css', function() {
+gulp.task('sass', function() {
     if (argv.production) {
-        return gulp.src('public/css/**/*.scss')
+        return gulp.src('resources/sass/**/*.scss')
             .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
-            .pipe(gulp.dest('public/css'));
+            .pipe(gulp.dest('public/css'))
+            .pipe(notify({message: '[PROD] Compiled SASS!', onLast: true}));
     } else {
-        return gulp.src('public/css/**/*.scss')
+        return gulp.src('resources/sass/**/*.scss')
             .pipe(sourcemaps.init())
-                .pipe(sass().on('error', sass.logError))
+            .pipe(sass().on('error', sass.logError))
             .pipe(sourcemaps.write('.'))
-            .pipe(gulp.dest('public/css'));
+            .pipe(gulp.dest('public/css'))
+            .pipe(notify({message: '[DEV] Compiled SASS!', onLast: true}));
     }
 });
 
@@ -29,25 +33,25 @@ gulp.task('css', function() {
  * Depending on the production flag, also minifies or creates a sourcemap.
  */
 gulp.task('js', function() {
+    // These files will be included first
     var files = [
-        'public/js/vendor/jquery.min.js',
-        'public/js/vendor/bootstrap.min.js',
-        'public/js/vendor/**/*.js',
-        'public/js/modules/**/*.js',
-        'public/js/views/**/*.js'
+        'node_modules/jquery/dist/jquery.js',
+        'node_modules/bootstrap-sass/assets/javascripts/bootstrap.js'
     ];
 
     if (argv.production) {
-        return gulp.src(files)
-                .pipe(concat('app.js'))
-                .pipe(uglify())
-            .pipe(gulp.dest('public/js'));
+        return gulp.src(files.concat(['resources/js/modules/**/*.js', 'resources/js/views/**/*.js']))
+            .pipe(concat('app.js'))
+            .pipe(uglify())
+            .pipe(gulp.dest('public/js'))
+            .pipe(notify({message: '[PROD] Compiled JS!', onLast: true}));
     } else {
-        return gulp.src(files)
+        return gulp.src(files.concat(['resources/js/modules/**/*.js', 'resources/js/views/**/*.js']))
             .pipe(sourcemaps.init())
-                .pipe(concat('app.js'))
+            .pipe(concat('app.js'))
             .pipe(sourcemaps.write('.'))
-            .pipe(gulp.dest('public/js'));
+            .pipe(gulp.dest('public/js'))
+            .pipe(notify({message: '[DEV] Compiled JS!', onLast: true}));
     }
 });
 
@@ -56,29 +60,11 @@ gulp.task('js', function() {
  * If there was a change, the appropriate task will be executed.
  */
 gulp.task('watch', function () {
-    gulp.watch('public/css/**/*.scss', ['css']);
-    gulp.watch('public/js/**/!(app.js)/*.js', ['js']);
-});
-
-/**
- * Copies the project files to the public directory, ready for use.
- */
-gulp.task('install', function() {
-    // copying javascript
-    gulp.src('node_modules/jquery/dist/jquery.min.js')
-        .pipe(gulp.dest('public/js/vendor'));
-    gulp.src('node_modules/bootstrap-sass/assets/javascripts/bootstrap.min.js')
-        .pipe(gulp.dest('public/js/vendor'));
-
-    // copying fonts
-    gulp.src('node_modules/bootstrap-sass/assets/fonts/bootstrap/*.*')
-        .pipe(gulp.dest('public/fonts/bootstrap'));
-
-    // start js and css tasks
-    gulp.start('js', 'css');
+    gulp.watch('resources/sass/**/*.scss', ['sass']);
+    gulp.watch('resources/js/**/!(app.js)/*.js', ['js']);
 });
 
 /**
  * The default task executes the css and js task.
  */
-gulp.task('default', ['css', 'js']);
+gulp.task('default', ['sass', 'js']);

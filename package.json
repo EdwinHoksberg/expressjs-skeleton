@@ -15,16 +15,19 @@
     "express": "~4.13.1",
     "morgan": "~1.6.1",
     "serve-favicon": "~2.3.0",
-    "gulp-sass": "~2.1.1",
+    "nodemon": "~1.8.1",
+    "swig": "~1.4.2",
+    "ouch": "~0.2.0-beta",
+
+    "bootstrap-sass": "~3.3.5",
+    "jquery": "~2.2.0",
+
     "gulp": "~3.9.0",
     "gulp-concat": "~2.6.0",
     "gulp-sourcemaps": "~1.6.0",
-    "yargs": "~3.32.0",
+    "gulp-sass": "~2.1.1",
+    "gulp-notify": "^2.2.0",
     "gulp-uglify": "~1.5.1",
-    "jquery": "~2.2.0",
-    "nodemon": "~1.8.1",
-    "bootstrap-sass": "~3.3.5",
-    "swig": "~1.4.2",
-    "ouch": "~0.2.0-beta"
+    "yargs": "~3.32.0"
   }
 }
